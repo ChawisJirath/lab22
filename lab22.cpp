@@ -1,7 +1,7 @@
 #include<iostream>
 #include<cmath>
 using namespace std;
-
+#define PI 3.14159265
 class ComplexNumber{				
 	public:
 		double real;
@@ -24,8 +24,63 @@ ComplexNumber ComplexNumber::operator+(const ComplexNumber &c){
 	return ComplexNumber(real+c.real,imag+c.imag);
 }
 
+ComplexNumber operator+(double a,const ComplexNumber &c){
+    return ComplexNumber(a+c.real,c.imag);
+}
+
+
+ComplexNumber operator-(double a,const ComplexNumber &c){
+    return ComplexNumber(a-c.real,-c.imag);
+}
+
 ComplexNumber ComplexNumber::operator-(const ComplexNumber &c){
 	return ComplexNumber(real-c.real,imag-c.imag);
+}
+
+ComplexNumber ComplexNumber::operator*(const ComplexNumber &c){
+    return ComplexNumber(real*c.real-imag*c.imag,imag*c.real+real*c.imag);
+}
+
+ComplexNumber operator*(double a,const ComplexNumber &c){
+    return ComplexNumber(a*c.real,a*c.imag);
+}
+
+ComplexNumber ComplexNumber::operator/(const ComplexNumber &c){
+    return ComplexNumber(((real*c.real+imag*c.imag)/(pow(c.real,2)+pow(c.imag,2))),((imag*c.real+real*(-c.imag))/(pow(c.real,2)+pow(c.imag,2))));
+}
+
+ComplexNumber operator/(double a,const ComplexNumber &c){
+    return ComplexNumber(a*c.real/(pow(c.real,2)+pow(c.imag,2)),a*(-c.imag)/(pow(c.real,2)+pow(c.imag,2)));
+}
+    
+bool ComplexNumber::operator==(const ComplexNumber &c){
+    if(real==c.real && imag==c.imag) return true;
+    else return false;
+}
+
+
+bool operator==(double a,const ComplexNumber &c){
+    if(c.imag==0 && c.real==a) return true;
+    else return false;
+}
+
+double ComplexNumber::abs(){
+    return sqrt(pow(real,2)+pow(imag,2));
+}
+
+double ComplexNumber::angle(){
+    return atan2(imag, real) * 180.0 / PI;
+}
+
+ostream & operator<<(ostream &os,const ComplexNumber &c){
+    if(c.imag==0 && c.real==0) return os << 0;
+    if(c.imag==0) return os << c.real ;
+    if(c.real==0) return os << c.imag <<"i";
+    if(c.imag>0){
+        return os << c.real << "+" << c.imag << "i"; 
+    }else{
+        return os << c.real << c.imag << "i"; 
+    }
 }
 
 //Write your code here
